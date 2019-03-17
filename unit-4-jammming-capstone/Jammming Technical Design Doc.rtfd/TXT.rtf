@@ -1,0 +1,174 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1671\cocoasubrtf200
+{\fonttbl\f0\fnil\fcharset0 ProximaNova-Regular;\f1\fswiss\fcharset0 Helvetica;\f2\fswiss\fcharset0 ArialMT;
+}
+{\colortbl;\red255\green255\blue255;\red53\green55\blue68;\red102\green102\blue102;\red34\green35\blue38;
+\red17\green85\blue204;}
+{\*\expandedcolortbl;;\csgenericrgb\c20784\c21569\c26667;\csgenericrgb\c40000\c40000\c40000;\csgenericrgb\c13333\c13725\c14902;
+\csgenericrgb\c6667\c33333\c80000;}
+\vieww12240\viewh15840\viewkind1
+\deftab720
+\pard\pardeftab720\ri0\sb320\qc\partightenfactor0
+
+\f0\fs48 \cf2 Feature Request: Curating Playlists\
+\pard\pardeftab720\ri0\qc\partightenfactor0
+
+\b\fs28 \cf3 Jammming Feature Concept. M. Hepworth. 3.16.19\
+\pard\pardeftab720\ri0\sb480\partightenfactor0
+\cf2 OBJECTIVE\
+\pard\pardeftab720\ri0\sl312\slmult1\sb200\partightenfactor0
+
+\b0\fs22 \cf2 To provide users with the ability to tag a Spotify playlist by genre and search by genre.\
+\pard\pardeftab720\ri0\sb480\partightenfactor0
+
+\b\fs28 \cf2 BACKGROUND \
+\pard\pardeftab720\ri0\sl312\slmult1\sb200\partightenfactor0
+
+\b0\fs22 \cf2 When considering several possible features to add to the Jammming application, the challenge of avoiding redundancy of Spotify features comes to mind. Otherwise, Jammming could risk becoming yet another music application that echos every other online music service. From a UX perspective, how is it possible for the Jammming application to differentiate itself from Spotify (despite the use of its API)? Perhaps the most viable inquiry to consider is to determine which Spotify feature has the most potential to expand upon in order for Jammming to be specialized.\
+One type of Spotify feature that has potential is its \'93Genres & Moods\'94 category. After all, \'93mood\'94 is synonymous with \'93music,\'94 and Jammming could position itself as the go-to for music playlist curation. Jammming users (a.k.a.: Jammmers) could have a more definitive approach with how they define the playlist mood rather than by use of an arbitrary playlist name\'96 despite effective cultural implications. While Spotify provides a diverse range of genres, the approach to \'93mood\'94 is highly subjective and confined to the playlist name. Therefore, a Spotify user is left to speculate about which genres are (or ought to be) associated with a playlist based on a subjective playlist name. Jammming could thereby expand upon this type of limitation. \
+When considering how we create a playlist, it\'92s possible that it is either single- or multi-genre. What would be useful for Jammmers is to provide the ability of adding genre-based tags to a playlist prior to saving it to a Spotify account. Perhaps, the idea is leaning more toward a revision of Spotify\'92s \'93Genres & Moods,\'94 although not if we consider how Jammming could become differentiated. By assigning genre tags to a playlist, Jammmers can now provide a more definitive idea in relation to the mood of the playlist. It\'92s possible that Jammming could become a specialized application for the music curation process. Ultimately, the genre feature would also affect how users search in Jammming, in which \'93genre\'94 could be added as part of its search criteria. Ideally, Jammming could thereby provide a very familiar Spotify feature, but establish a creative approach to playlist creation and curation and thereby create a new demand. \
+This feature accomplishes the following:\
+\pard\tx720\pardeftab720\ri0\sl312\slmult1\partightenfactor0
+\cf2 \uc0\u9679 	Allows Jammmers to assign a limited number of genres to playlists.\
+\uc0\u9679 	Enables Jammmers to search by genre in addition to artist, song, and album.\
+\uc0\u9679 	Empowers Jammmers to become more informed music curators.\
+\uc0\u9679 	Allows Spotify users to identify playlists by mood in association with genres. \
+\
+Currently, Spotify\'92s \'93Genres & Moods\'94 category does not technically interrelate \'93genre\'94 with the \'93mood\'94 of the playlist. Despite that the user interface (UI) provides an impression that playlists include each entity, it is possible that Jammming provides this unique feature.\
+\pard\pardeftab720\ri0\sb480\partightenfactor0
+
+\b\fs28 \cf2 TECHNICAL DESIGN\
+\pard\pardeftab720\ri0\sl312\slmult1\sa26\partightenfactor0
+
+\fs24 \cf2 \
+\pard\pardeftab720\ri0\sl264\slmult1\sa22\partightenfactor0
+\cf2 Searching for Genres\
+
+\i\b0\fs20 \cf0 Speculative Development Overview\
+\pard\pardeftab720\ri0\sl312\slmult1\sb200\partightenfactor0
+
+\i0\fs22 \cf2 The Spotify \'93album\'94 object endpoint includes a \'93genre\'94 key, in which the \'93genre\'94 value is an array of strings. \cf4 \'93When a collection of objects is returned and the number of objects is variable, the collection is wrapped in a 
+\b paging object
+\b0  to simplify retrieval of further objects. The offset-based paging object is a container for a set of objects. It contains a key called items, whose value is an array of the requested objects\'94 ({\field{\*\fldinst{HYPERLINK "https://developer.spotify.com/documentation/web-api/reference/object-model/#paging-object"}}{\fldrslt \cf5 \ul \ulc5 Spotify}}). \cf2 To retrieve genres, we could create a new method in the 
+\b Spotify.js
+\b0  such as 
+\b getPlaylistGenres() 
+\b0 that targets the Album object endpoint and genre key {\field{\*\fldinst{HYPERLINK "https://developer.spotify.com/web-api/get-list-users-playlists/"}}{\fldrslt \cf5 \ul \ulc5 https://api.spotify.com/v1/users/\{user_id\}/artists/\{id\}/albums/genres}}\
+To search for genres in Jammming, we would need to revise 
+\b Spotify.js
+\b0 . I believe that within the 
+\b search(searchTerm)
+\b0  method, we would need to include a \'93genre\'94 property since genre is a key of the album endpoint. Whereas 
+\b Track.js
+\b0  lists the track name, artist name, and album name, it is unnecessary to assign genre to the track for the purpose of our concept. Instead, we would need to enable the user to assign \'93genres\'94 to the \'93New Playlist\'94 area (and not to the track list). When evaluating the UI and UX, after a Jammmer searches for tracks that display in the \'93Results\'94 area and then adds tracks to the \'93New Playlist\'94 area, the option of assigning genres to \'93New Playlist\'94 would be made available. 
+\b Fig. 1 
+\b0 provides a visual outcome of the genre feature concept.\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardeftab720\pardirnatural\partightenfactor0
+
+\f1\fs24 \cf0 {{\NeXTGraphic Pasted Graphic.tiff \width8000 \height10360 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}
+\f0\fs22 \cf2 \
+\pard\pardeftab720\ri0\sl312\slmult1\sb200\qc\partightenfactor0
+
+\b \cf2 Figure 1.
+\b0  Genre Feature Concept for a Jammming Playlist. User-assigned genre tags are in relation to the song list and limited to a maximum of 3 genre tags per playlist. \
+\pard\pardeftab720\ri0\sl264\slmult1\sa22\partightenfactor0
+
+\b\fs24 \cf2 \
+\
+\
+\
+Assigning Genres to a New Playlist
+\b0\fs40 \
+\pard\pardeftab720\ri0\sl312\slmult1\sb200\partightenfactor0
+
+\fs22 \cf2 In order to manage the addition of the \'93genre\'94 feature for the \'93New Playlist,\'94 it\'92s possible that a new component 
+\b PlaylistGenres
+\b0  in 
+\b PlaylistGenres.js
+\b0  could be created. The JS script could behave similarly to the Track.js script, in which 
+\b addGenre()
+\b0  and 
+\b removeGenre()
+\b0  would emulate the user interaction of 
+\b addTrack()
+\b0  and 
+\b removeTrack()
+\b0 . As far as the UI outcome, <PlaylistGenres /> could include onRemove and onAdd attributes and wrap an <ul> <li> element to serve as the \'93+\'94 button for adding genres. Existing genres as depicted in Fig. 1 could also be stylized <li> elements in which a 
+\b PlaylistGenres CSS
+\b0  script would need to be created. The JS could resemble a simplified approach to adding and deleting genres to the playlist. 
+\b Fig. 2
+\b0  provides a first phase development of the HTML elements.\
+ \
+\pard\tx720\pardeftab720\ri0\partightenfactor0
+
+\b \cf2 JSX / HTML\
+
+\b0 <div className="Genre-component">\
+   	 <h2 className="Genre-title">Add Playlist Genres</h2>\
+   	 <span className="Genre-subtitle">Limit of 3</span>   \
+\pard\tx720\tx1440\pardeftab720\ri0\partightenfactor0
+\cf2 <hr className="Genre-hr"  />\
+\pard\tx720\pardeftab720\ri0\partightenfactor0
+\cf2    	 <a className="Genre-action" onClick=\{this.addGenre\}>&#43;</a>;\
+ // Phase 1 of button development. Does not correlate to <a> yet.\
+ 	 \{ this.props.genre.map(genre => \{\
+	return <PlaylistGenre key=\{genre.id\}\
+		genre=\{genre\}\
+		onAdd=\{this.props.onAdd\} \}) \}  \
+// Phase 1 of empty <ul> genre tags\
+          	<ul className="Genre-options">\
+             	 <li className="Genre-tag1" \
+\pard\tx720\tx1440\tx2160\pardeftab720\ri0\partightenfactor0
+\cf2       onRemove=\{this.props.onRemove\} \
+\pard\tx720\pardeftab720\ri0\partightenfactor0
+\cf2     		      isRemoval=\{this.props.isRemoval\}/>\
+\pard\tx720\tx1440\tx2160\pardeftab720\ri0\partightenfactor0
+\cf2 \{this.props.genre.name\}\
+\pard\tx720\tx1440\pardeftab720\ri0\partightenfactor0
+\cf2 </li>\
+\pard\tx720\pardeftab720\ri0\partightenfactor0
+\cf2               	<li className="Genre-tag2" \
+\pard\tx720\tx1440\tx2160\pardeftab720\ri0\partightenfactor0
+\cf2       onRemove=\{this.props.onRemove\} \
+\pard\tx720\pardeftab720\ri0\partightenfactor0
+\cf2     		      isRemoval=\{this.props.isRemoval\}/>\
+\pard\tx720\tx1440\tx2160\pardeftab720\ri0\partightenfactor0
+\cf2 \{this.props.genre.name\}\
+\pard\tx720\tx1440\pardeftab720\ri0\partightenfactor0
+\cf2 </li>\
+\pard\tx720\pardeftab720\ri0\partightenfactor0
+\cf2               	<li className="Genre-tag3" \
+\pard\tx720\tx1440\tx2160\pardeftab720\ri0\partightenfactor0
+\cf2       onRemove=\{this.props.onRemove\} \
+\pard\tx720\pardeftab720\ri0\partightenfactor0
+\cf2     		      isRemoval=\{this.props.isRemoval\}/>\
+\pard\tx720\tx1440\tx2160\pardeftab720\ri0\partightenfactor0
+\cf2 \{this.props.genre.name\}\
+\pard\tx720\tx1440\pardeftab720\ri0\partightenfactor0
+\cf2 </li>\
+\pard\tx720\pardeftab720\ri0\partightenfactor0
+\cf2             </ul>\
+</div>\
+\pard\tx720\pardeftab720\ri0\sl312\slmult1\sb200\partightenfactor0
+
+\b \cf2 Figure 2.
+\b0  First Phase Development of HTML Elements, Component Prototype.\
+\pard\pardeftab720\ri0\sl312\slmult1\sb200\partightenfactor0
+
+\b\fs28 \cf2 CAVEATS
+\b0\fs22 \
+As an first-time developer of JSX and ReactJS, it\'92s much more natural to approach the design and usability of the Jammming concept from a UI/UX perspective, given that it is my background. Therefore, full development and implementation of the genre feature concept is not available despite a speculative overview of how the concept could be developed. Time constraints have been factored. However, there are potential caveats in the context as to whether or not the genre feature would be deemed useful by Jammmers. \
+\pard\pardeftab720\ri0\sl312\slmult1\sb200\partightenfactor0
+
+\b \cf2 Usability Testing
+\b0 \
+A usability test of a genre feature prototype would need to be conducted in order to evaluate if the concept is relevant. The outcome of the test would determine if the concept aligns with the mental model of how users create and curate a playlist (independent of Spotify). A range of 35-75 users would be needed in order to obtain comprehensive results of feature relevancy. A usability script would be needed in order to explain the purpose of the concept, why the feature is being tested (to a certain degree), and to direct the user along the playlist creation and curation process. Users would be provided a quick, follow-up survey immediately after the usability test in order to determine if they perceive the genre feature as valuable, somewhat valuable, neutral, not valuable, or irrelevant. \
+
+\b Technical Caveats with Spotify
+\b0 \
+Technical caveats include roadblocks within the Spotify web app UI. In other words, even though \'93genre\'94 is a part of the Spotify Web API, it results as a jumbled term with \'93mood\'94 in regard to the main navigation UI, and usability and functionality in context of UX. While the Spotify API provides technical support to search for \'93genre,\'94 the web app UI does not clearly provide a means of assigning genres to newly-created playlists. Therefore, even if the Jammming genre feature was successfully relevant during usability testing, a playlist that includes genre tags would not execute seamlessly to a Spotify account since it does not align with Spotify web app UI. However, it does not mean that genre feature concept could not redefine how Jammming could become specialized.  \
+\pard\pardeftab720\ri0\sl276\slmult1\partightenfactor0
+
+\f2 \cf0 \
+}
